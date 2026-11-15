@@ -25,3 +25,8 @@
 @media(max-width:760px){
   .install-app-btn{width:auto;margin:0;padding:7px 10px;font-size:12px}
 }
+
+/* Keep the install action visible and fitted in the header */
+.site-header{gap:10px}
+.install-app-btn{display:inline-flex!important;align-items:center;justify-content:center;flex:0 0 auto;visibility:visible;opacity:1}
+@media(max-width:650px){.site-header{gap:7px;padding-inline:12px}.brand{gap:6px}.brand-mark{font-size:17px}.install-app-btn{padding:6px 8px;font-size:11px}.menu-toggle{padding:5px 8px}}
