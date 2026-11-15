@@ -15,34 +15,31 @@ document.addEventListener('DOMContentLoaded', () => {
       toggle.textContent = '☰';
     }));
   }
-
-  // PWA install button
-  let deferredInstallPrompt = null;
   const installButton = document.querySelector('.install-app-btn');
-
+  let deferredInstallPrompt = null;
   if (installButton) {
+    const standalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    installButton.hidden = standalone;
     window.addEventListener('beforeinstallprompt', event => {
       event.preventDefault();
       deferredInstallPrompt = event;
       installButton.hidden = false;
     });
-
     installButton.addEventListener('click', async () => {
       if (!deferredInstallPrompt) {
-        alert('اگر گزینه نصب فعال نشد، از منوی سه‌نقطه Chrome گزینه «Install app» یا «افزودن به صفحه اصلی» را انتخاب کن.');
+        alert('برای نصب، منوی سه‌نقطه مرورگر را باز کن و گزینه «Install app» یا در آیفون «Add to Home Screen» را بزن.');
         return;
       }
       deferredInstallPrompt.prompt();
-      await deferredInstallPrompt.userChoice;
+      const choice = await deferredInstallPrompt.userChoice;
+      if (choice && choice.outcome === 'accepted') installButton.hidden = true;
       deferredInstallPrompt = null;
     });
-
     window.addEventListener('appinstalled', () => {
       deferredInstallPrompt = null;
       installButton.hidden = true;
     });
   }
-
   const current = location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.main-nav a').forEach(link => {
     if (link.getAttribute('href') === current) link.classList.add('active');
