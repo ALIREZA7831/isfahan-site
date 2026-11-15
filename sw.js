@@ -1,3 +1,4 @@
+
 const CACHE_NAME = "isfahan-pwa-v7";
 
 const APP_FILES = [
@@ -56,28 +57,32 @@ self.addEventListener("fetch", event => {
   if (event.request.method !== "GET") return;
 
   const url = new URL(event.request.url);
-
   if (url.origin !== self.location.origin) return;
 
   if (event.request.mode === "navigate") {
     event.respondWith(
       caches.match(event.request).then(cached => {
         if (cached) return cached;
-        return fetch(event.request).then(response => {
-          if (response.ok) {
-            const copy = response.clone();
-            caches.open(CACHE_NAME).then(cache =>
-              cache.put(event.request, copy)
-            );
-          }
-          return response;
-        }).catch(async () =>
-          await caches.match("./index.html") ||
-          new Response("صفحه در حالت آفلاین در دسترس نیست.", {
-            status: 503,
-            headers: { "Content-Type": "text/plain; charset=utf-8" }
+
+        return fetch(event.request)
+          .then(response => {
+            if (response.ok) {
+              const copy = response.clone();
+              caches.open(CACHE_NAME).then(cache =>
+                cache.put(event.request, copy)
+              );
+            }
+            return response;
           })
-        );
+          .catch(async () =>
+            await caches.match("./index.html") ||
+            new Response("صفحه در حالت آفلاین در دسترس نیست.", {
+              status: 503,
+              headers: {
+                "Content-Type": "text/plain; charset=utf-8"
+              }
+            })
+          );
       })
     );
     return;
@@ -97,10 +102,14 @@ self.addEventListener("fetch", event => {
           }
           return response;
         })
-        .catch(() => new Response("این بخش در حالت آفلاین در دسترس نیست.", {
-          status: 503,
-          headers: { "Content-Type": "text/plain; charset=utf-8" }
-        }));
+        .catch(() => new Response(
+          "این بخش در حالت آفلاین در دسترس نیست.", {
+            status: 503,
+            headers: {
+              "Content-Type": "text/plain; charset=utf-8"
+            }
+          }
+        ));
     })
   );
 });
