@@ -30,3 +30,8 @@
 .site-header{gap:10px}
 .install-app-btn{display:inline-flex!important;align-items:center;justify-content:center;flex:0 0 auto;visibility:visible;opacity:1}
 @media(max-width:650px){.site-header{gap:7px;padding-inline:12px}.brand{gap:6px}.brand-mark{font-size:17px}.install-app-btn{padding:6px 8px;font-size:11px}.menu-toggle{padding:5px 8px}}
+
+
+/* Qaws-e Azar brand */
+.brand{gap:10px}.brand-logo{width:46px;height:46px;object-fit:cover;border-radius:12px;border:1px solid #d9b65f;box-shadow:0 3px 12px #0003}.brand-copy{display:flex;flex-direction:column;line-height:1.35}.brand-copy strong{font-size:16px;color:#fff}.brand-copy small{font-size:11px;color:var(--gold);font-weight:500}.install-app-btn[hidden]{display:none!important}
+@media(max-width:650px){.brand-logo{width:38px;height:38px}.brand-copy strong{font-size:14px}.brand-copy small{font-size:10px}}
