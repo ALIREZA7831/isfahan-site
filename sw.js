@@ -1,4 +1,4 @@
-const CACHE_NAME = "isfahan-pwa-v3";
+const CACHE_NAME = "isfahan-pwa-v4";
 
 const APP_FILES = [
   "./",
@@ -81,15 +81,20 @@ self.addEventListener("fetch", event => {
     caches.match(event.request).then(cached => {
       if (cached) return cached;
 
-      return fetch(event.request).then(response => {
-        if (response.ok) {
-          const copy = response.clone();
-          caches.open(CACHE_NAME).then(cache =>
-            cache.put(event.request, copy)
-          );
-        }
-        return response;
-      });
+      return fetch(event.request)
+        .then(response => {
+          if (response.ok) {
+            const copy = response.clone();
+            caches.open(CACHE_NAME).then(cache =>
+              cache.put(event.request, copy)
+            );
+          }
+          return response;
+        })
+        .catch(() => new Response("این بخش در حالت آفلاین در دسترس نیست.", {
+          status: 503,
+          headers: { "Content-Type": "text/plain; charset=utf-8" }
+        }));
     })
   );
 });
