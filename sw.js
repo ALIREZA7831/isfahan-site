@@ -1,4 +1,4 @@
-const CACHE_NAME = "isfahan-pwa-v4";
+const CACHE_NAME = "isfahan-pwa-v5";
 
 const APP_FILES = [
   "./",
