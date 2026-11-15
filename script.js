@@ -18,35 +18,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // PWA install button
   let deferredInstallPrompt = null;
-  const installButton = document.createElement('button');
-  installButton.type = 'button';
-  installButton.className = 'install-app-btn';
-  installButton.textContent = 'نصب اپلیکیشن';
-  installButton.setAttribute('aria-label', 'نصب اپلیکیشن اصفهان');
-  const header = document.querySelector('.site-header');
-  if (header) header.appendChild(installButton);
+  const installButton = document.querySelector('.install-app-btn');
 
-  window.addEventListener('beforeinstallprompt', event => {
-    event.preventDefault();
-    deferredInstallPrompt = event;
-    installButton.classList.add('is-installable');
-  });
+  if (installButton) {
+    window.addEventListener('beforeinstallprompt', event => {
+      event.preventDefault();
+      deferredInstallPrompt = event;
+      installButton.hidden = false;
+    });
 
-  installButton.addEventListener('click', async () => {
-    if (!deferredInstallPrompt) {
-      alert('برای نصب، منوی سه‌نقطه Chrome را باز کن و گزینه «Install app» یا «افزودن به صفحه اصلی» را انتخاب کن.');
-      return;
-    }
-    deferredInstallPrompt.prompt();
-    await deferredInstallPrompt.userChoice;
-    deferredInstallPrompt = null;
-    installButton.classList.remove('is-installable');
-  });
+    installButton.addEventListener('click', async () => {
+      if (!deferredInstallPrompt) {
+        alert('اگر گزینه نصب فعال نشد، از منوی سه‌نقطه Chrome گزینه «Install app» یا «افزودن به صفحه اصلی» را انتخاب کن.');
+        return;
+      }
+      deferredInstallPrompt.prompt();
+      await deferredInstallPrompt.userChoice;
+      deferredInstallPrompt = null;
+    });
 
-  window.addEventListener('appinstalled', () => {
-    deferredInstallPrompt = null;
-    installButton.remove();
-  });
+    window.addEventListener('appinstalled', () => {
+      deferredInstallPrompt = null;
+      installButton.hidden = true;
+    });
+  }
 
   const current = location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.main-nav a').forEach(link => {
