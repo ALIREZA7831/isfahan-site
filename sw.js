@@ -1,4 +1,4 @@
-const CACHE_NAME = "isfahan-pwa-v6";
+const CACHE_NAME = "isfahan-pwa-v7";
 
 const APP_FILES = [
   "./",
@@ -61,18 +61,24 @@ self.addEventListener("fetch", event => {
 
   if (event.request.mode === "navigate") {
     event.respondWith(
-      fetch(event.request)
-        .then(response => {
-          const copy = response.clone();
-          caches.open(CACHE_NAME).then(cache =>
-            cache.put(event.request, copy)
-          );
+      caches.match(event.request).then(cached => {
+        if (cached) return cached;
+        return fetch(event.request).then(response => {
+          if (response.ok) {
+            const copy = response.clone();
+            caches.open(CACHE_NAME).then(cache =>
+              cache.put(event.request, copy)
+            );
+          }
           return response;
-        })
-        .catch(async () => {
-          return await caches.match(event.request) ||
-                 await caches.match("./index.html");
-        })
+        }).catch(async () =>
+          await caches.match("./index.html") ||
+          new Response("صفحه در حالت آفلاین در دسترس نیست.", {
+            status: 503,
+            headers: { "Content-Type": "text/plain; charset=utf-8" }
+          })
+        );
+      })
     );
     return;
   }
