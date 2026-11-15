@@ -23,5 +23,5 @@
 }
 .install-app-btn:hover{transform:translateY(-2px);box-shadow:0 8px 18px #0002}
 @media(max-width:760px){
-  .install-app-btn{width:100%;margin-top:8px}
+  .install-app-btn{width:auto;margin:0;padding:7px 10px;font-size:12px}
 }
