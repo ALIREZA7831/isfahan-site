@@ -23,7 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
   installButton.className = 'install-app-btn';
   installButton.textContent = 'نصب اپلیکیشن';
   installButton.setAttribute('aria-label', 'نصب اپلیکیشن اصفهان');
-  if (nav) nav.appendChild(installButton);
+  const header = document.querySelector('.site-header');
+  if (header) header.appendChild(installButton);
 
   window.addEventListener('beforeinstallprompt', event => {
     event.preventDefault();
