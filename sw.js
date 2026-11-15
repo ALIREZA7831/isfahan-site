@@ -1,5 +1,5 @@
 
-const CACHE_NAME = "isfahan-pwa-v7";
+const CACHE_NAME = "isfahan-pwa-v8";
 
 const APP_FILES = [
   "./",
@@ -19,6 +19,7 @@ const APP_FILES = [
   "./icons/icon-512.svg",
   "./icons/icon-192.png",
   "./icons/icon-512.png",
+  "./icons/logo.svg",
   "./images/chehel-sotoun.jpg",
   "./images/jame-mosque.jpg",
   "./images/jame-mosque.svg",
